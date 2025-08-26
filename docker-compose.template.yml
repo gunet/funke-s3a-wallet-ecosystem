@@ -1,0 +1,148 @@
+version: '3.9'
+
+name: wallet-ecosystem
+services:
+
+  wallet-enterprise-issuer:
+    container_name: wallet-enterprise-issuer
+    hostname: wallet-enterprise-issuer
+    build:
+      context: $PWD
+      dockerfile: ./docker/wallet-enterprise.development.Dockerfile
+    image: wallet-enterprise:dev-issuer
+    restart: on-failure
+    ports:
+      - 8003:8003
+      - 9259:9259
+    depends_on:
+      wallet-db:
+        condition: service_healthy
+    volumes:
+      - ./wallet-enterprise/src:/app/src:rw
+      - ./wallet-enterprise/views:/app/views:rw
+      - ./wallet-enterprise-configurations/issuer/dataset:/app/dataset:rw
+      - ./wallet-enterprise-configurations/issuer/config/index.ts:/app/config/index.ts:rw
+      - ./wallet-enterprise-configurations/issuer/keys:/app/keys:rw
+      - ./wallet-enterprise-configurations/issuer/src/configuration:/app/src/configuration:rw
+      - ./wallet-enterprise-configurations/issuer/public/images:/app/public/images:rw
+      - ./wallet-enterprise-configurations/issuer/public/styles/main.css:/app/public/styles/main.css:rw
+      - ./.vscode/:/app/.vscode:rw
+      - type: tmpfs
+        target: /app/dist  # Not /dist here because of relative imports that assume dist/ and keys/, views/ etc. are sibling dirs
+        tmpfs:
+          mode: 01777
+    deploy:
+      resources:
+          limits:
+            memory: 1G
+  wallet-enterprise-acme-verifier:
+    container_name: wallet-enterprise-acme-verifier
+    hostname: wallet-enterprise-acme-verifier
+    build:
+      context: $PWD
+      dockerfile: ./docker/wallet-enterprise.development.Dockerfile
+    image: wallet-enterprise:dev-verifier
+    restart: on-failure
+    ports:
+      - 8005:8005
+      - 9260:9259
+    depends_on:
+      wallet-db:
+        condition: service_healthy
+    volumes:
+      - ./wallet-enterprise/src:/app/src:rw
+      - ./wallet-enterprise/views:/app/views:rw
+      - ./wallet-enterprise-configurations/acme-verifier/config/index.ts:/app/config/index.ts:rw
+      - ./wallet-enterprise-configurations/acme-verifier/keys:/app/keys:rw
+      - ./wallet-enterprise-configurations/acme-verifier/src/configuration:/app/src/configuration:rw
+      - ./wallet-enterprise-configurations/acme-verifier/public/styles/main.css:/app/public/styles/main.css:rw
+      - ./wallet-enterprise-configurations/acme-verifier/public/images:/app/public/images:rw
+      - ./.vscode/:/app/.vscode:rw
+      - type: tmpfs
+        target: /app/dist
+        tmpfs:
+          mode: 01777
+    deploy:
+      resources:
+          limits:
+            memory: 1G
+  
+  wallet-db:
+    image: mariadb
+    container_name: wallet-db
+    hostname: wallet-db
+    restart: on-failure
+    ports:
+      - 127.0.0.1:3307:3307
+    expose: 
+      - 3307
+    environment:
+      MARIADB_HOST: wallet-db
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_USER: myuser
+      MARIADB_PASSWORD:
+      MYSQL_TCP_PORT: 3307
+      MYSQL_UNIX_PORT: 3307
+    healthcheck:
+      test: ["CMD", "mariadb" ,"-uroot", "-proot", "--protocol=TCP", "-hlocalhost", "--port=3307",  "-estatus"]
+      start_period: 60s
+      #start_interval: 5s  # Not yet supported it seems, but upcoming: https://github.com/docker/compose/issues/10830
+      interval: 5s         # Delete this line when start_interval becomes supported
+      timeout: 2s
+    volumes:
+      # persist data files into `datadir` volume managed by docker
+      - datadir:/var/lib/mysql
+      # bind-mount any sql files that should be run while initializing
+      - ./db-setup/scripts/:/docker-entrypoint-initdb.d/
+
+  wallet-backend-server:
+    container_name: wallet-backend-server
+    build:
+      context: $PWD/wallet-backend-server
+      dockerfile: development.Dockerfile
+    image: wallet-backend-server:dev
+    restart: on-failure
+    ports:
+      - 8002:8002
+    depends_on:
+      wallet-db:
+        condition: service_healthy
+    volumes:
+      - ./wallet-backend-server:/app:rw
+      - ./.vscode/:/app/.vscode:rw
+      - type: tmpfs
+        target: /dist
+        tmpfs:
+          mode: 01777
+    deploy:
+      resources:
+          limits:
+            memory: 1G
+
+  wallet-frontend:
+    build:
+      context: $PWD
+      dockerfile: ./docker/wallet-frontend.development.Dockerfile
+    image: wallet-frontend:dev
+    container_name: wallet-frontend
+    hostname: wallet-frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./wallet-frontend/public:/app/public:rw
+      - ./wallet-frontend/src:/app/src:ro
+      - ./wallet-frontend/.env:/app/.env:ro
+      - ./.vscode/:/app/.vscode:rw
+      - type: tmpfs
+        target: /app/node_modules/.vite
+        tmpfs:
+          mode: 01777
+      - type: tmpfs
+        target: /app/node_modules/.vite-temp
+        tmpfs:
+          mode: 01777
+
+volumes:
+  datadir:
+  cache:
+    driver: local
