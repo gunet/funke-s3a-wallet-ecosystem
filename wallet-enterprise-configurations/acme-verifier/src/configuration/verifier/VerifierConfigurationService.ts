@@ -823,15 +823,15 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 					bachelorDescriptor
 				]
 			},
-			// { // example with Transaction Data
-			// 	"id": "MinimalPIDwithTransactionData",
-			// 	"title": "MinimalPID with Example Transaction Data",
-			// 	"description": "PID fields: Given Name, Family Name, Birth Date, Nationality, Exp. Date, Issuing Authority, Issuing Country. Transaction Data Type: 'urn:wwwallet:example_transaction_data_type'",
-			// 	"format": { "dc+sd-jwt": { alg: ['ES256'] } },
-			// 	"input_descriptors": [
-			// 		{ ...minimalVerifiableIdSdJwtDescriptor, _transaction_data_type: "urn:wwwallet:example_transaction_data_type" },
-			// 	]
-			// }
+			{ // QES Transaction data
+				"id": "MinimalPIDwithTransactionDataQES",
+				"title": "PID (ARF v1.8) with QES Authorization Transaction Data",
+				"description": "Format: dc+sd-jwt - Transaction Data Type: qes_authorization",
+				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
+				"input_descriptors": [
+					{ ...minimalVerifiableIdSdJwtDescriptor, _transaction_data_type: "qes_authorization" },
+				]
+			}
 		]
 	}
 
