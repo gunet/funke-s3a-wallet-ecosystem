@@ -14,3 +14,6 @@
 	path = lib/wallet-common
 	url = git@github.com:wwWallet/wallet-common.git
 	branch = master
+[submodule "ausweissapp-client"]
+	path = ausweissapp-client
+	url = git@github.com:gunet/ausweissapp-client.git

@@ -130,8 +130,8 @@ services:
       - 3000:3000
     volumes:
       - ./wallet-frontend/public:/app/public:rw
-      - ./wallet-frontend/src:/app/src:ro
-      - ./wallet-frontend/.env:/app/.env:ro
+      - ./wallet-frontend/src:/app/src:rw
+      - ./wallet-frontend/.env:/app/.env:rw
       - ./.vscode/:/app/.vscode:rw
       - type: tmpfs
         target: /app/node_modules/.vite
@@ -141,6 +141,28 @@ services:
         target: /app/node_modules/.vite-temp
         tmpfs:
           mode: 01777
+
+  ausweisapp-client:
+    build:
+      context: $PWD/ausweissapp-client
+      dockerfile: development.Dockerfile
+    volumes:
+      - ./ausweissapp-client:/app
+    ports:
+      - 24727:24727
+    depends_on:
+      - ausweisapp
+
+  ausweisapp:
+    image: governikus/ausweisapp2
+
+  apache-proxy:
+    build:
+      context: $PWD/apache-proxy
+      dockerfile: Dockerfile.apache-rproxy
+    restart: always
+    ports:
+      - 8443:443
 
 volumes:
   datadir:
