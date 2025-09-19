@@ -826,10 +826,19 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 			{ // QES Transaction data
 				"id": "MinimalPIDwithTransactionDataQES",
 				"title": "PID (ARF v1.8) with QES Authorization Transaction Data",
-				"description": "Format: dc+sd-jwt - Transaction Data Type: qes_authorization",
+				"description": "Format: dc+sd-jwt - Transaction Data Type: https://cloudsignatureconsortium.org/2025/qes. The user will be requested to authorize the QTSP to create QES for the document 'Example Contract'",
 				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
 				"input_descriptors": [
-					{ ...minimalVerifiableIdSdJwtDescriptor, _transaction_data_type: "qes_authorization" },
+					{ ...minimalVerifiableIdSdJwtDescriptor, _transaction_data_type: "https://cloudsignatureconsortium.org/2025/qes" },
+				]
+			},
+			{ // QC Request Transaction data
+				"id": "MinimalPIDwithTransactionDataQCRequest",
+				"title": "PID (ARF v1.8) with QC Request Transaction Data",
+				"description": "Format: dc+sd-jwt - Transaction Data Type: https://cloudsignatureconsortium.org/2025/qc-request. The user will be requested to give consent for the creation of signature certificates according to the Terms and Conditions (T&C) of the QTSP",
+				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
+				"input_descriptors": [
+					{ ...minimalVerifiableIdSdJwtDescriptor, _transaction_data_type: "https://cloudsignatureconsortium.org/2025/qc-request" },
 				]
 			}
 		]
