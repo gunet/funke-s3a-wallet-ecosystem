@@ -591,7 +591,7 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 			{
 				"id": "CustomVerifiableId",
 				"title": "PID ARF v1.8",
-				"description": "Select the format and the fields you want to request",
+				"description": "Select the fields you want to request",
 				_selectable: true,
 				"input_descriptors": [
 					{
@@ -621,7 +621,7 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 			},
 			{
 				"id": "EuropeanHealthInsuranceCard",
-				"title": "European Health Insurance Card",
+				"title": "EHIC",
 				"description": "Select the fields you want to request",
 				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
 				_selectable: true,
@@ -651,7 +651,7 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 			},
 			{
 				"id": "MinimalPIDAndBachelorDiploma",
-				"title": "PID (ARF v1.8) + Diploma",
+				"title": "PID (ARF v1.8) + Bachelor Diploma",
 				"description": "Request a PID (ARF v1.8) along with a Bachelor Diploma",
 				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
 				"input_descriptors": [
