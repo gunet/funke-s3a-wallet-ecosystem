@@ -17,3 +17,6 @@
 [submodule "ausweissapp-client"]
 	path = ausweissapp-client
 	url = git@github.com:gunet/ausweissapp-client.git
+[submodule "privacy-gateway-server-go"]
+	path = privacy-gateway-server-go
+	url = https://github.com/gunet/privacy-gateway-server-go.git
