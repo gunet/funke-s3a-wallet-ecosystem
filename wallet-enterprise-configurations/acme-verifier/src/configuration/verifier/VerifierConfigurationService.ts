@@ -20,7 +20,8 @@ const sdJwtPidFields = [
 	{
 		"name": "First name",
 		"path": ['$.given_name'],
-		"filter": {}
+		"filter": {},
+		"_registrarApproved": true
 	},
 	{
 		"name": "Birth first name",
@@ -30,7 +31,8 @@ const sdJwtPidFields = [
 	{
 		"name": "Last name",
 		"path": ['$.family_name'],
-		"filter": {}
+		"filter": {},
+		"_registrarApproved": true
 	},
 	{
 		"name": "Birth last name",
@@ -165,7 +167,8 @@ const sdJwtPidFields = [
 	{
 		"name": "Issuing region",
 		"path": ['$.issuing_jurisdiction'],
-		"filter": {}
+		"filter": {},
+		"_registrarApproved": true
 	},
 	{
 		"name": "Expiry date",
@@ -189,181 +192,6 @@ const sdJwtPidFields = [
 	}
 ]
 
-const sdJwtPidFields_1_5 = [
-	{
-		"name": "VC type",
-		"path": [
-			"$.vct"
-		],
-		"filter": {
-			"type": "string",
-			"const": "urn:eu.europa.ec.eudi:pid:1"
-		}
-	},
-	{
-		"name": "First name",
-		"path": ['$.given_name'],
-		"filter": {}
-	},
-	{
-		"name": "Birth first name",
-		"path": ['$.given_name_birth'],
-		"filter": {}
-	},
-	{
-		"name": "Last name",
-		"path": ['$.family_name'],
-		"filter": {}
-	},
-	{
-		"name": "Birth last name",
-		"path": ['$.family_name_birth'],
-		"filter": {}
-	},
-	{
-		"name": "Sex",
-		"path": ['$.sex'],
-		"filter": {}
-	},
-	{
-		"name": "Email",
-		"path": ['$.email_address'],
-		"filter": {}
-	},
-	{
-		"name": "Mobile",
-		"path": ['$.mobile_phone_number'],
-		"filter": {}
-	},
-	{
-		"name": "Full address",
-		"path": ['$.resident_address'],
-		"filter": {}
-	},
-	{
-		"name": "Resident street",
-		"path": ['$.resident_street'],
-		"filter": {}
-	},
-	{
-		"name": "Resident number",
-		"path": ['$.resident_house_number'],
-		"filter": {}
-	},
-	{
-		"name": "Resident ZIP",
-		"path": ['$.resident_postal_code'],
-		"filter": {}
-	},
-	{
-		"name": "City of residence",
-		"path": ['$.resident_city'],
-		"filter": {}
-	},
-	{
-		"name": "State of residence",
-		"path": ['$.resident_state'],
-		"filter": {}
-	},
-	{
-		"name": "Country of residence",
-		"path": ['$.resident_country'],
-		"filter": {}
-	},
-	{
-		"name": "Personal ID",
-		"path": ['$.personal_administrative_number'],
-		"filter": {}
-	},
-	{
-		"name": "Nationality",
-		"path": ['$.nationality'],
-		"filter": {}
-	},
-	{
-		"name": "Place of birth",
-		"path": ['$.birth_place'],
-		"filter": {}
-	},
-	{
-		"name": "Date of Βirth",
-		"path": ['$.birth_date'],
-		"filter": {}
-	},
-	{
-		"name": "Age over 14",
-		"path": ['$.age_over_14'],
-		"filter": {}
-	},
-	{
-		"name": "Age over 16",
-		"path": ['$.age_over_16'],
-		"filter": {}
-	},
-	{
-		"name": "Age over 18",
-		"path": ['$.age_over_18'],
-		"filter": {}
-	},
-	{
-		"name": "Age over 21",
-		"path": ['$.age_over_21'],
-		"filter": {}
-	},
-	{
-		"name": "Age",
-		"path": ['$.age_in_years'],
-		"filter": {}
-	},
-	{
-		"name": "Birth year",
-		"path": ['$.age_birth_year'],
-		"filter": {}
-	},
-	{
-		"name": "Document number",
-		"path": ['$.document_number'],
-		"filter": {}
-	},
-	{
-		"name": "Issuing authority",
-		"path": ['$.issuing_authority'],
-		"filter": {}
-	},
-	{
-		"name": "Issuing country",
-		"path": ['$.issuing_country'],
-		"filter": {}
-	},
-	{
-		"name": "Issuing region",
-		"path": ['$.issuing_jurisdiction'],
-		"filter": {}
-	},
-	{
-		"name": "Issue date",
-		"path": ['$.issuance_date'],
-		"filter": {}
-	},
-	{
-		"name": "Expiry date",
-		"path": ['$.expiry_date'],
-		"filter": {}
-	},
-	{
-		"name": "Portrait",
-		"path": ['$.portrait'],
-		"filter": {}
-	}
-]
-
-const sdJwtPidDescriptor_1_5 = {
-	"id": "CustomVerifiableId1_5",
-	"format": { "dc+sd-jwt": { alg: ['ES256'] } },
-	"constraints": {
-		"fields": sdJwtPidFields_1_5
-	}
-}
 
 const minimalSdJwtPidFields = [
 	{
@@ -386,16 +214,16 @@ const minimalSdJwtPidFields = [
 		"path": ['$.family_name'],
 		"filter": {}
 	},
-	{
-		"name": "Date of birth",
-		"path": ['$.birthdate'],
-		"filter": {}
-	},
-	{
-		"name": "Nationality",
-		"path": ['$.nationalities'],
-		"filter": {}
-	},
+	// {
+	// 	"name": "Date of birth",
+	// 	"path": ['$.birthdate'],
+	// 	"filter": {}
+	// },
+	// {
+	// 	"name": "Nationality",
+	// 	"path": ['$.nationalities'],
+	// 	"filter": {}
+	// },
 	{
 		"name": "Expiry date",
 		"path": ['$.date_of_expiry'],
@@ -597,17 +425,20 @@ const bachelorDescriptor = {
 			{
 				"name": "Grade",
 				"path": ['$.grade'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "EQF Level",
 				"path": ['$.eqf_level'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Diploma Title",
 				"path": ['$.title'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 		]
 	}
@@ -641,47 +472,56 @@ const europeanHealthInsuranceCardDescriptor = {
 			{
 				"name": "Issuing country",
 				"path": ['$.issuing_country'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Issuing authority id",
 				"path": ['$.issuing_authority.id'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Issuing authority name",
 				"path": ['$.issuing_authority.name'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Competent institution id",
 				"path": ['$.authentic_source.id'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Competent institution name",
 				"path": ['$.authentic_source.name'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Starting date",
 				"path": ['$.starting_date'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Ending date",
 				"path": ['$.ending_date'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Expiry date",
 				"path": ['$.date_of_expiry'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Issue date",
 				"path": ['$.date_of_issuance'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			}
 		]
 	}
@@ -705,32 +545,38 @@ const powerOfRepresentationDescriptor = {
 			{
 				"name": "Legal entity ID",
 				"path": ['$.legal_person_identifier'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Legal entity name",
 				"path": ['$.legal_name'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Full Representation Powers",
 				"path": ['$.full_powers'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Designated eService",
 				"path": ['$.eService'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Effective from",
 				"path": ['$.effective_from_date'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			},
 			{
 				"name": "Effective until",
 				"path": ['$.effective_until_date'],
-				"filter": {}
+				"filter": {},
+				"_registrarApproved": true
 			}
 		]
 	}
@@ -761,16 +607,6 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 							]
 						}
 					}
-				]
-			},
-			{
-				"id": "CustomVerifiableIdARF1_5",
-				"title": "PID ARF v1.5",
-				"description": "Select the fields you want to request",
-				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
-				_selectable: true,
-				"input_descriptors": [
-					sdJwtPidDescriptor_1_5
 				]
 			},
 			{
@@ -826,10 +662,19 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 			{ // QES Transaction data
 				"id": "MinimalPIDwithTransactionDataQES",
 				"title": "PID (ARF v1.8) with QES Authorization Transaction Data",
-				"description": "Format: dc+sd-jwt - Transaction Data Type: qes_authorization",
+				"description": "Format: dc+sd-jwt - Transaction Data Type: https://cloudsignatureconsortium.org/2025/qes. The user will be requested to authorize the QTSP to create QES for the document 'Example Contract'",
 				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
 				"input_descriptors": [
-					{ ...minimalVerifiableIdSdJwtDescriptor, _transaction_data_type: "qes_authorization" },
+					{ ...minimalVerifiableIdSdJwtDescriptor, _transaction_data_type: "https://cloudsignatureconsortium.org/2025/qes" },
+				]
+			},
+			{ // QC Request Transaction data
+				"id": "MinimalPIDwithTransactionDataQCRequest",
+				"title": "PID (ARF v1.8) with QC Request Transaction Data",
+				"description": "Format: dc+sd-jwt - Transaction Data Type: https://cloudsignatureconsortium.org/2025/qc-request. The user will be requested to give consent for the creation of signature certificates according to the Terms and Conditions (T&C) of the QTSP",
+				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
+				"input_descriptors": [
+					{ ...minimalVerifiableIdSdJwtDescriptor, _transaction_data_type: "https://cloudsignatureconsortium.org/2025/qc-request" },
 				]
 			}
 		]
