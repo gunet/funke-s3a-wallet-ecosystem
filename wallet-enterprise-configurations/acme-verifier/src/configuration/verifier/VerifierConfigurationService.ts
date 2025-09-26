@@ -590,7 +590,7 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 		return [
 			{
 				"id": "CustomVerifiableId",
-				"title": "PID ARF v1.8",
+				"title": "PID",
 				"description": "Select the fields you want to request",
 				_selectable: true,
 				"input_descriptors": [
