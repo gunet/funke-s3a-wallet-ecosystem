@@ -1,0 +1,38 @@
+server {
+    listen 80;
+
+    location = /health {
+        default_type application/json;
+        return 200 '{"ok":true,"service":"relay","impl":"nginx"}';
+    }
+
+    # merged /api/relay and /api/relay/
+    location ~ ^/api/relay/?$ {
+        if ($request_method = OPTIONS) {
+            add_header 'Access-Control-Allow-Origin'  ${CORS_ALLOWED_ORIGINS} always;
+            add_header 'Access-Control-Allow-Methods' 'POST, OPTIONS' always;
+            add_header 'Access-Control-Allow-Headers' 'Content-Type, Accept' always;
+            add_header 'Access-Control-Max-Age'       86400 always;
+            return 204;
+        }
+
+        proxy_http_version 1.1;
+        proxy_request_buffering off;
+        proxy_buffering        off;
+        proxy_redirect         off;
+
+        proxy_ssl_server_name on;
+        proxy_ssl_verify off;
+
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        add_header 'Access-Control-Allow-Origin' ${CORS_ALLOWED_ORIGINS} always;
+
+        # Regex location can't use proxy_pass with a URI; rewrite first, then pass
+        rewrite ^ /gateway break;
+        proxy_pass http://gateway:4567;
+    }
+}
