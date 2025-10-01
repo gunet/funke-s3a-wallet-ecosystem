@@ -1,3 +1,18 @@
+# Resolve Docker service names at runtime via Docker's embedded DNS
+resolver 127.0.0.11 ipv6=off valid=10s;
+
+upstream wallet_backend {
+    server wallet-backend-server:8002 resolve;
+    keepalive 16;
+		zone wallet_backend 64k; # runtime DNS resolution must be in shared mem
+}
+
+upstream ohttp_gateway {
+    server gateway:4567 resolve;
+    keepalive 16;
+		zone ohttp_gateway 64k; # runtime DNS resolution must be in shared mem
+}
+
 server {
     listen 80;
 
@@ -6,15 +21,33 @@ server {
         return 200 '{"ok":true,"service":"relay","impl":"nginx"}';
     }
 
-    # merged /api/relay and /api/relay/
+    # Internal auth subrequest — checks Authorization against the backend
+    location = /_auth {
+        internal;
+        proxy_pass http://wallet_backend/helper/auth-check;
+        proxy_pass_request_body off;
+        proxy_set_header Content-Length "";
+
+        proxy_set_header Authorization $http_authorization;
+        proxy_set_header Cookie $http_cookie;
+        proxy_set_header X-Original-URI $request_uri;
+        proxy_set_header X-Real-IP        $remote_addr;
+        proxy_set_header X-Forwarded-For  $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
     location ~ ^/api/relay/?$ {
+        # Preflight: answer directly
         if ($request_method = OPTIONS) {
             add_header 'Access-Control-Allow-Origin'  ${CORS_ALLOWED_ORIGINS} always;
             add_header 'Access-Control-Allow-Methods' 'POST, OPTIONS' always;
-            add_header 'Access-Control-Allow-Headers' 'Content-Type, Accept' always;
+            add_header 'Access-Control-Allow-Headers' 'Content-Type, Accept, Authorization' always;
             add_header 'Access-Control-Max-Age'       86400 always;
             return 204;
         }
+
+        # Gate with backend auth; 2xx allows, 401/403 denies, others -> 500
+        auth_request /_auth;
 
         proxy_http_version 1.1;
         proxy_request_buffering off;
@@ -24,15 +57,11 @@ server {
         proxy_ssl_server_name on;
         proxy_ssl_verify off;
 
-        proxy_set_header Host              $host;
-        proxy_set_header X-Real-IP         $remote_addr;
-        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-
+        # CORS on all outcomes
         add_header 'Access-Control-Allow-Origin' ${CORS_ALLOWED_ORIGINS} always;
 
-        # Regex location can't use proxy_pass with a URI; rewrite first, then pass
+        # Regex location: rewrite path first, then proxy_pass without URI
         rewrite ^ /gateway break;
-        proxy_pass http://gateway:4567;
+        proxy_pass http://ohttp_gateway;
     }
 }
