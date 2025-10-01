@@ -6,8 +6,8 @@ set -eu
 
 # Only substitute the vars we intend to change, leave $host etc. intact
 envsubst '${CORS_ALLOWED_ORIGINS}' \
-  < /etc/nginx/conf.d/default.conf.tpl \
-  > /etc/nginx/conf.d/default.conf
+	< /etc/nginx/conf.d/default.conf.tpl \
+	> /etc/nginx/conf.d/default.conf
 
 # Optional: remove template to avoid confusion
 rm -f /etc/nginx/conf.d/default.conf.tpl
