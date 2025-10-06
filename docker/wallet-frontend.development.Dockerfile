@@ -5,15 +5,9 @@ WORKDIR /dependencies
 RUN apt-get update && apt-get install -y git
 
 # Install dependencies first so rebuild of these layers is only needed when dependencies change
-COPY lib/ ./lib/
-COPY wallet-frontend/lib/jose/ ./lib/jose/
-
-WORKDIR /dependencies/lib/wallet-common
-RUN yarn install && yarn cache clean -f && yarn build
-
 WORKDIR /dependencies
 COPY ./wallet-frontend/package.json ./wallet-frontend/yarn.lock .
-RUN yarn add /dependencies/lib/wallet-common && yarn install && yarn cache clean -f
+RUN yarn install && yarn cache clean -f
 
 FROM node:22-bullseye-slim AS development
 
