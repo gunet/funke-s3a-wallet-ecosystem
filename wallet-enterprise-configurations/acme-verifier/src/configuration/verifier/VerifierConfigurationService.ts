@@ -631,8 +631,8 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 			},
 			{
 				"id": "MinimalPIDAndEuropeanHealthInsuranceCard",
-				"title": "PID (ARF v1.8) + EHIC",
-				"description": "Request a PID (ARF v1.8) along with an EHIC",
+				"title": "PID + EHIC",
+				"description": "Request a PID along with an EHIC",
 				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
 				"input_descriptors": [
 					minimalVerifiableIdSdJwtDescriptor,
@@ -641,8 +641,8 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 			},
 			{
 				"id": "MinimalPIDAndPowerOfRepresentation",
-				"title": "PID (ARF v1.8) + POR",
-				"description": "Request a PID (ARF v1.8) along with a POR",
+				"title": "PID + POR",
+				"description": "Request a PID along with a POR",
 				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
 				"input_descriptors": [
 					minimalVerifiableIdSdJwtDescriptor,
@@ -651,8 +651,8 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 			},
 			{
 				"id": "MinimalPIDAndBachelorDiploma",
-				"title": "PID (ARF v1.8) + Bachelor Diploma",
-				"description": "Request a PID (ARF v1.8) along with a Bachelor Diploma",
+				"title": "PID + Bachelor Diploma",
+				"description": "Request a PID along with a Bachelor Diploma",
 				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
 				"input_descriptors": [
 					minimalVerifiableIdSdJwtDescriptor,
@@ -661,7 +661,8 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 			},
 			{ // QES Transaction data
 				"id": "MinimalPIDwithTransactionDataQES",
-				"title": "PID (ARF v1.8) with QES Authorization Transaction Data",
+				"title": "PID with QES Authorization Transaction Data",
+				"purpose": "Document Signing",
 				"description": "Format: dc+sd-jwt - Transaction Data Type: https://cloudsignatureconsortium.org/2025/qes. The user will be requested to authorize the QTSP to create QES for the document 'Example Contract'",
 				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
 				"input_descriptors": [
@@ -670,7 +671,8 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 			},
 			{ // QC Request Transaction data
 				"id": "MinimalPIDwithTransactionDataQCRequest",
-				"title": "PID (ARF v1.8) with QC Request Transaction Data",
+				"title": "PID with QC Request Transaction Data",
+				"purpose": "Creation of Signature Certificate",
 				"description": "Format: dc+sd-jwt - Transaction Data Type: https://cloudsignatureconsortium.org/2025/qc-request. The user will be requested to give consent for the creation of signature certificates according to the Terms and Conditions (T&C) of the QTSP",
 				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
 				"input_descriptors": [
