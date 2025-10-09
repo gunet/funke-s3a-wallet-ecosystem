@@ -663,7 +663,7 @@ export class VerifierConfigurationService implements VerifierConfigurationInterf
 				"id": "MinimalPIDwithTransactionDataQES",
 				"title": "PID with QES Authorization Transaction Data",
 				"purpose": "Document Signing",
-				"description": "Format: dc+sd-jwt - Transaction Data Type: https://cloudsignatureconsortium.org/2025/qes. The user will be requested to authorize the QTSP to create QES for the document 'Example Contract'",
+				"description": "Format: dc+sd-jwt - Transaction Data Type: https://cloudsignatureconsortium.org/2025/qes. The user will be requested to authorize the QTSP to create QES for the document 'Personal Loan Agreement'",
 				"format": { "dc+sd-jwt": { alg: ['ES256'] } },
 				"input_descriptors": [
 					{ ...minimalVerifiableIdSdJwtDescriptor, _transaction_data_type: "https://cloudsignatureconsortium.org/2025/qes" },
