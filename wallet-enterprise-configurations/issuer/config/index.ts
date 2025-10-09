@@ -21,7 +21,7 @@ export const config = {
 		skipConsent: false,
 		defaultCredentialConfigurationIds: ["urn:eu.europa.ec.eudi:pid:1"],
 		batchCredentialIssuance: {
-			batchSize: 1,
+			batchSize: 4,
 		}
 	},
 	presentationFlow: {
